@@ -48,7 +48,7 @@ void show_modal(Modal *modal, const ModalPosition *modalpos)
 }
 
 
-Modal *create_modal(char *message, ModalGeometry *modalGeometry)
+Modal *create_modal(char *message, ModalGeometry *modalGeometry, ModalColors *modalColors)
 {
     Display *display = XOpenDisplay(NULL);
 
@@ -60,12 +60,10 @@ Modal *create_modal(char *message, ModalGeometry *modalGeometry)
 
     int default_screen = DefaultScreen(display);
 
-    ModalColors modalColors = { .background = 0x0f111b, .foreground = 0xecf0c1 };
-
     Modal *modal = malloc(sizeof(Modal));
     modal->default_screen = default_screen;
     modal->display = display;
-    modal->modalColors = modalColors;
+    modal->modalColors = *modalColors;
     modal->modalGeometry = *modalGeometry;
     modal->message = message;
 

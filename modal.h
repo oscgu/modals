@@ -29,5 +29,5 @@ typedef struct {
 } Modal;
 
 /* function definitions */
-Modal *create_modal(char *message, ModalGeometry *modalGeometry);
+Modal *create_modal(char *message, ModalGeometry *modalGeometry, ModalColors *modalColors);
 void show_modal(Modal *modal, const ModalPosition *displayDimensions);
