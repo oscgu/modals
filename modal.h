@@ -7,8 +7,8 @@ typedef struct {
 } ModalPosition;
 
 typedef struct {
-    int foreground;
-    int background;
+    char *foreground;
+    char *background;
 } ModalColors;
 
 typedef struct {

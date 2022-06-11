@@ -1,4 +1,5 @@
 #include <X11/X.h>
+#include <X11/Xlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -7,12 +8,21 @@
 #include "modal.h"
 
 /* function implementations */
+static unsigned long get_color_from_hex(char *hexcol, Display *display)
+{
+    XColor xcol;
+    XParseColor(display, DefaultColormap(display, 0), hexcol, &xcol);
+    XAllocColor(display, DefaultColormap(display, 0), &xcol);
+
+    return xcol.pixel;
+}
+
 static void destroy_modal(Modal *modal)
 {
     XFlush(modal->display);
     XCloseDisplay(modal->display);
     free(modal);
-};
+}
 
 void show_modal(Modal *modal, const ModalPosition *modalpos)
 {
@@ -23,7 +33,8 @@ void show_modal(Modal *modal, const ModalPosition *modalpos)
     int modal_x_mid = (modal->modalGeometry.width + strlen(modal->message)) / 2;
     int modal_y_mid = modal->modalGeometry.height / 2;
 
-    Window window = XCreateSimpleWindow(modal->display, RootWindow(modal->display, modal->default_screen), modalpos->width, modalpos->height, modal->modalGeometry.width, modal->modalGeometry.height, modal->modalGeometry.border, BlackPixel(modal->display, modal->default_screen), WhitePixel(modal->display, modal->default_screen));
+    Window window = XCreateSimpleWindow(modal->display, RootWindow(modal->display, modal->default_screen), modalpos->width, modalpos->height, modal->modalGeometry.width, modal->modalGeometry.height, modal->modalGeometry.border, get_color_from_hex(modal->modalColors.foreground, modal->display), get_color_from_hex(modal->modalColors.background, modal->display));
+    XSetForeground(modal->display, DefaultGC(modal->display, modal->default_screen), get_color_from_hex(modal->modalColors.foreground, modal->display));
     XSelectInput(modal->display, window, ExposureMask | KeyPressMask);
     XSetTransientForHint(modal->display, window, RootWindow(modal->display, modal->default_screen));
     XMapWindow(modal->display, window);
