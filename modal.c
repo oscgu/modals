@@ -30,9 +30,6 @@ void show_modal(Modal *modal, const ModalPosition *modalpos)
 
     printf("X: %d, Y: %d\n", modalpos->width, modalpos->height);
 
-    int modal_x_mid = (modal->modalGeometry.width + strlen(modal->message)) / 2;
-    int modal_y_mid = modal->modalGeometry.height / 2;
-
     Window window = XCreateSimpleWindow(modal->display, RootWindow(modal->display, modal->default_screen), modalpos->width, modalpos->height, modal->modalGeometry.width, modal->modalGeometry.height, modal->modalGeometry.border, get_color_from_hex(modal->modalColors.foreground, modal->display), get_color_from_hex(modal->modalColors.background, modal->display));
     XSetForeground(modal->display, DefaultGC(modal->display, modal->default_screen), get_color_from_hex(modal->modalColors.foreground, modal->display));
     XSelectInput(modal->display, window, ExposureMask | KeyPressMask);
@@ -45,7 +42,7 @@ void show_modal(Modal *modal, const ModalPosition *modalpos)
 
         if(event.type == Expose)
         {
-            XDrawString(modal->display, window, DefaultGC(modal->display, modal->default_screen), modal_x_mid, modal_y_mid, modal->message, strlen(modal->message));
+            XDrawString(modal->display, window, DefaultGC(modal->display, modal->default_screen), modal->modalGeometry.insideX, modal->modalGeometry.insideY, modal->message, strlen(modal->message));
         }
 
         if (event.type == KeyPress && event.xkey.keycode == 24) 
