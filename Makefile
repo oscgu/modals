@@ -1,12 +1,12 @@
 CC = cc
 CFLAGS = -lX11
-DEPS = modal.h
-OBJ = program.o modal.o
+DEPS = notif.h
+OBJ = example.o notif.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-program: $(OBJ)
+example: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
