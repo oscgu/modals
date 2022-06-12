@@ -1,4 +1,5 @@
 #include <X11/X.h>
+#include <X11/Xlib.h>
 #include <bits/types/__FILE.h>
 #include <stdio.h>
 #include <string.h>
@@ -28,7 +29,7 @@ static void destroy_notif(Notif *notif)
     free(notif);
 }
 
-void show_notif(Notif *notif, const NotifPosition *notifpos)
+void show_notif(Notif *notif, const NotifPosition *notifpos, const char *title)
 {
     XEvent event;
     #ifdef DEBUG
@@ -39,6 +40,7 @@ void show_notif(Notif *notif, const NotifPosition *notifpos)
     XSetForeground(notif->display, DefaultGC(notif->display, notif->default_screen), get_color_from_hex(notif->notifColors.foreground, notif->display));
     XSelectInput(notif->display, window, ExposureMask | KeyPressMask | ButtonPressMask);
     XSetTransientForHint(notif->display, window, RootWindow(notif->display, notif->default_screen));
+    XStoreName(notif->display, window, title);
     XMapWindow(notif->display, window);
 
     for (;;)

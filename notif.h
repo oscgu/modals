@@ -33,4 +33,4 @@ typedef struct {
 
 /* function definitions */
 Notif *create_notif(char *message, NotifGeometry *notifGeometry, NotifColors *notifColors);
-void show_notif(Notif *notif, const NotifPosition *displayDimensions);
+void show_notif(Notif *notif, const NotifPosition *displayDimensions, const char *title);
