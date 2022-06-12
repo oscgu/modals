@@ -31,11 +31,9 @@ static void destroy_notif(Notif *notif)
 void show_notif(Notif *notif, const NotifPosition *notifpos)
 {
     XEvent event;
-
     #ifdef DEBUG
         printf("X: %d, Y: %d\n", notifpos->width, notifpos->height);
     #endif
-
     XCreateFontCursor(notif->display, 1);
     Window window = XCreateSimpleWindow(notif->display, RootWindow(notif->display, notif->default_screen), notifpos->width, notifpos->height, notif->notifGeometry.width, notif->notifGeometry.height, notif->notifGeometry.border, get_color_from_hex(notif->notifColors.foreground, notif->display), get_color_from_hex(notif->notifColors.background, notif->display));
     XSetForeground(notif->display, DefaultGC(notif->display, notif->default_screen), get_color_from_hex(notif->notifColors.foreground, notif->display));
@@ -62,12 +60,11 @@ void show_notif(Notif *notif, const NotifPosition *notifpos)
         case ButtonPress:
             if (event.xbutton.button == Button1)
             {
-                int x = event.xbutton.x;
-                int y = event.xbutton.y;
                 #ifdef DEBUG
+                    int x = event.xbutton.x;
+                    int y = event.xbutton.y;
                     printf("Mouse click at x: %d y: %d\n", x, y);
                 #endif
-
                 goto die;
             }
         }
