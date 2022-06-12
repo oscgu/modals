@@ -9,7 +9,7 @@
 
 /* macros */
 #define XK_Q 24
-#define DEBUG
+// #define DEBUG
 
 /* function implementations */
 static unsigned long get_color_from_hex(char *hexcol, Display *display)
