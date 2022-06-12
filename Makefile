@@ -1,5 +1,6 @@
+.POSIX:
 CC = cc
-CFLAGS = -lX11
+CFLAGS = -pedantic -Wall -Os -s -Wno-deprecated-declarations -std=c99 -lX11
 DEPS = notif.h
 OBJ = example.o notif.o
 
